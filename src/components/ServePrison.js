@@ -1,16 +1,24 @@
-import React from "react";
+import React,{useState} from "react";
 import { useParams, useLocation } from "react-router-dom";
 import save from "../media/ezgif-2-e5a6f8f93a.gif";
 import coin from "../media/coin.jpeg";
 import karma from "../media/karma.png";
-import jail from "../media/jail.png"
-import inventory from "../media/inventory.jpeg"
+import jail from "../media/jail.png";
+import inventory from "../media/inventory.jpeg";
+import { Modal } from "antd";
+
 function ServePrison() {
   const { id } = useParams();
+  const [isInventoryModalVisible, setIsInventoryModalVisible] = useState(false);
+
   const location = useLocation();
   const { profile, resources } = location.state || {
     profile: null,
     resources: null,
+  };
+
+  const handleInventoryClick = () => {
+    setIsInventoryModalVisible(true);
   };
 
   return (
@@ -38,14 +46,18 @@ function ServePrison() {
           </h4>
         </div>
         <div className="inventory-rs" style={{ display: "flex", gap: 10 }}>
-          <img src={inventory} alt="inventory" style={{ height: 30, width: 30 }} />{" "}
+          <img
+            src={inventory}
+            alt="inventory"
+            style={{ height: 30, width: 30 }}
+            onClick={handleInventoryClick}
+          />{" "}
         </div>
       </div>
 
       {profile && resources ? (
         <div>
           <div>
-            
             <p>Inventory: {resources.inventory}</p>
             <p>Stash: {resources.stash}</p>
             <div className="save" style={{ display: "flex", gap: 3 }}>
@@ -53,6 +65,14 @@ function ServePrison() {
               <h3 style={{ position: "relative", top: -7 }}>Saving..</h3>
             </div>
           </div>
+          <Modal
+            title="Inventory"
+            visible={isInventoryModalVisible}
+            onOk={() => setIsInventoryModalVisible(false)}
+            onCancel={() => setIsInventoryModalVisible(false)}
+          >
+            <p>Inventory content goes here</p>
+          </Modal>
         </div>
       ) : (
         <p>No profile or resource data available.</p>
