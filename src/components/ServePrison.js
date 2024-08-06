@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import save from "../media/ezgif-2-e5a6f8f93a.gif";
 import coin from "../media/coin.jpeg";
@@ -20,6 +20,11 @@ function ServePrison() {
   const handleInventoryClick = () => {
     setIsInventoryModalVisible(true);
   };
+
+  const inventoryItems = Array.from({ length: 30 }, (_, index) => ({
+    id: index + 1,
+    name: `Item ${index + 1}`,
+  }));
 
   return (
     <div style={{ backgroundColor: "black", color: "white", height: "100vh" }}>
@@ -49,7 +54,7 @@ function ServePrison() {
           <img
             src={inventory}
             alt="inventory"
-            style={{ height: 30, width: 30 }}
+            style={{ height: 30, width: 30, cursor: "pointer" }}
             onClick={handleInventoryClick}
           />{" "}
         </div>
@@ -70,8 +75,24 @@ function ServePrison() {
             visible={isInventoryModalVisible}
             onOk={() => setIsInventoryModalVisible(false)}
             onCancel={() => setIsInventoryModalVisible(false)}
+            bodyStyle={{ maxHeight: '400px', overflowY: 'auto' }}
           >
-            <p>Inventory content goes here</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              {inventoryItems.map((item) => (
+                <div
+                  key={item.id}
+                  style={{
+                    flex: '1 1 calc(50% - 10px)',
+                    boxSizing: 'border-box',
+                    padding: '10px',
+                    border: '1px solid #ccc',
+                    borderRadius: '4px',
+                  }}
+                >
+                  {item.name}
+                </div>
+              ))}
+            </div>
           </Modal>
         </div>
       ) : (
