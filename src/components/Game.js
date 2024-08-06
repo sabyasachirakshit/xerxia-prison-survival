@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 
 function Game() {
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const { profile } = location.state || { profile: null };
 
   const [resources, setResources] = useState({
@@ -15,9 +16,10 @@ function Game() {
   });
 
   useEffect(() => {
-    // Load resources from local storage or initialize them
     const loadResources = () => {
-      const savedResources = JSON.parse(localStorage.getItem(`resources-${id}`));
+      const savedResources = JSON.parse(
+        localStorage.getItem(`resources-${id}`)
+      );
       if (savedResources) {
         setResources(savedResources);
       } else {
@@ -29,7 +31,10 @@ function Game() {
           stash: null,
         };
         setResources(initialResources);
-        localStorage.setItem(`resources-${id}`, JSON.stringify(initialResources));
+        localStorage.setItem(
+          `resources-${id}`,
+          JSON.stringify(initialResources)
+        );
       }
     };
 
@@ -37,6 +42,24 @@ function Game() {
       loadResources();
     }
   }, [id, profile]);
+
+  const randomizeJailTime = () => {
+    const possibleSentences = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    const randomSentence =
+      possibleSentences[Math.floor(Math.random() * possibleSentences.length)];
+    setResources((prevResources) => ({
+      ...prevResources,
+      jailTime: randomSentence,
+    }));
+  };
+
+  const handleServePrison = () => {
+    const updatedResources = {
+      ...resources,
+    };
+    localStorage.setItem(`resources-${id}`, JSON.stringify(updatedResources));
+    navigate(`/serve-prison/${id}`, { state: { resources, profile } });
+  };
 
   return (
     <div>
@@ -52,6 +75,10 @@ function Game() {
             <p>Jail Time: {resources.jailTime}</p>
             <p>Inventory: {resources.inventory}</p>
             <p>Stash: {resources.stash}</p>
+            <button onClick={randomizeJailTime}>Randomize Jail Time</button>
+            {resources.jailTime && (
+              <button onClick={handleServePrison}>Serve Prison</button>
+            )}
           </div>
         </div>
       ) : (
