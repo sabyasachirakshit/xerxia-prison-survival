@@ -17,7 +17,7 @@ import tea from "../media/inventory/tea.png";
 import medicine from "../media/inventory/medicine.png";
 import paracetemol from "../media/inventory/paracetemol.png";
 import moonshine from "../media/inventory/moonshine.jpeg";
-import vodka from "../media/inventory/vodka.jpeg";
+import vodka from "../media/inventory/vodka.png";
 import whiskey from "../media/inventory/whiskey.jpeg";
 import cocaine from "../media/inventory/cocaine.png";
 import smokes from "../media/inventory/smokes.png";
