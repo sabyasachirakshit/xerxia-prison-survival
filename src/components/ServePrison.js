@@ -1,7 +1,10 @@
 import React from "react";
 import { useParams, useLocation } from "react-router-dom";
-// import save from "../media/68747470733a2f2f696d6d6f7274616c652d6465762e6769746875622e696f2f61636f6c6f616465722f696d67732f61636f2e676966.gif"
 import save from "../media/ezgif-2-e5a6f8f93a.gif";
+import coin from "../media/coin.jpeg";
+import karma from "../media/karma.png";
+import jail from "../media/jail.png"
+import inventory from "../media/inventory.jpeg"
 function ServePrison() {
   const { id } = useParams();
   const location = useLocation();
@@ -12,21 +15,42 @@ function ServePrison() {
 
   return (
     <div style={{ backgroundColor: "black", color: "white", height: "100vh" }}>
-      <h1 style={{ margin: 0, padding: 0 }}>Serve Prison</h1>
+      <div className="resources-list" style={{ display: "flex", gap: 20 }}>
+        <h4 style={{ position: "relative", top: 6, margin: 0, padding: 0 }}>
+          PRISONER - {id}.{profile.name}
+        </h4>
+        <div className="coin-rs" style={{ display: "flex", gap: 10 }}>
+          <img src={coin} alt="coin" style={{ height: 30, width: 30 }} />{" "}
+          <h4 style={{ position: "relative", top: 2, margin: 0, padding: 0 }}>
+            {resources.coins}
+          </h4>
+        </div>
+        <div className="karma-rs" style={{ display: "flex", gap: 10 }}>
+          <img src={karma} alt="karma" style={{ height: 30, width: 30 }} />{" "}
+          <h4 style={{ position: "relative", top: 2, margin: 0, padding: 0 }}>
+            {resources.karma}
+          </h4>
+        </div>
+        <div className="jail-rs" style={{ display: "flex", gap: 10 }}>
+          <img src={jail} alt="jail" style={{ height: 30, width: 30 }} />{" "}
+          <h4 style={{ position: "relative", top: 2, margin: 0, padding: 0 }}>
+            {resources.jailTime} years
+          </h4>
+        </div>
+        <div className="inventory-rs" style={{ display: "flex", gap: 10 }}>
+          <img src={inventory} alt="inventory" style={{ height: 30, width: 30 }} />{" "}
+        </div>
+      </div>
+
       {profile && resources ? (
         <div>
-          <h2>Profile ID: {id}</h2>
-          <p>Profile Name: {profile.name}</p>
           <div>
-            <h3>Resources</h3>
-            <p>Coins: {resources.coins}</p>
-            <p>Karma: {resources.karma}</p>
-            <p>Jail Time: {resources.jailTime} years</p>
+            
             <p>Inventory: {resources.inventory}</p>
             <p>Stash: {resources.stash}</p>
             <div className="save" style={{ display: "flex", gap: 3 }}>
               <img src={save} alt="save" style={{ height: 50, width: 50 }} />{" "}
-              <h3 style={{position:"relative",top:-7}}>Saving..</h3>
+              <h3 style={{ position: "relative", top: -7 }}>Saving..</h3>
             </div>
           </div>
         </div>
