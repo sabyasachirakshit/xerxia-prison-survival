@@ -28,6 +28,8 @@ import { Modal } from "antd";
 function ServePrison() {
   const { id } = useParams();
   const [isInventoryModalVisible, setIsInventoryModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isItemDetailModalVisible, setIsItemDetailModalVisible] = useState(false);
 
   const location = useLocation();
   const { profile, resources } = location.state || {
@@ -37,6 +39,21 @@ function ServePrison() {
 
   const handleInventoryClick = () => {
     setIsInventoryModalVisible(true);
+  };
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+    setIsItemDetailModalVisible(true);
+  };
+
+  const handleMoveToTrash = () => {
+    // Handle the logic for moving the item to trash
+    setIsItemDetailModalVisible(false);
+  };
+
+  const handleMoveToStash = () => {
+    // Handle the logic for moving the item to stash
+    setIsItemDetailModalVisible(false);
   };
 
   const inventoryItems = [
@@ -121,7 +138,9 @@ function ServePrison() {
                     padding: "10px",
                     border: "1px solid #ccc",
                     borderRadius: "4px",
+                    cursor:"pointer"
                   }}
+                  onClick={() => handleItemClick(item)}
                 >
                   {item.name === "Alcohol" && (
                     <img
@@ -255,6 +274,33 @@ function ServePrison() {
                 </div>
               ))}
             </div>
+          </Modal>
+/*create a function lol */
+          <Modal
+            title={selectedItem ? selectedItem.name : "Item Details"}
+            visible={isItemDetailModalVisible}
+            onOk={() => setIsItemDetailModalVisible(false)}
+            onCancel={() => setIsItemDetailModalVisible(false)}
+          >
+            {selectedItem && (
+              <div>
+                {selectedItem.name === "Alcohol" && (
+                  <img src={alcohol} alt="alcohol" style={{ width: '50px', height: '50px' }} />
+                )}
+                {selectedItem.name === "Bread" && (
+                  <img src={bread} alt="bread" style={{ width: '50px', height: '50px' }} />
+                )}
+                <p>{selectedItem.description}</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <button  onClick={handleMoveToTrash}>
+                    Move to Trash
+                  </button>
+                  <button  onClick={handleMoveToStash}>
+                    Move to Stash
+                  </button>
+                </div>
+              </div>
+            )}
           </Modal>
         </div>
       ) : (
