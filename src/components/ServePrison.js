@@ -5,6 +5,8 @@ import coin from "../media/coin.jpeg";
 import karma from "../media/karma.png";
 import jail from "../media/jail.png";
 import inventory from "../media/inventory.jpeg";
+import alcohol from "../media/inventory/alcohol.png"
+import bread from "../media/inventory/bread.png"
 import { Modal } from "antd";
 
 function ServePrison() {
@@ -21,10 +23,7 @@ function ServePrison() {
     setIsInventoryModalVisible(true);
   };
 
-  const inventoryItems = Array.from({ length: 30 }, (_, index) => ({
-    id: index + 1,
-    name: `Item ${index + 1}`,
-  }));
+  const inventoryItems = [{id:1,name:"Alcohol"},{id:2,name:"Bread"}]
 
   return (
     <div style={{ backgroundColor: "black", color: "white", height: "100vh" }}>
@@ -89,7 +88,13 @@ function ServePrison() {
                     borderRadius: '4px',
                   }}
                 >
-                  {item.name}
+                  {item.name === "Alcohol" && (
+                    <img src={alcohol} alt="alcohol" style={{ width: '30px', height: '30px' }} />
+                  )}
+                  {item.name === "Bread" && (
+                    <img src={bread} alt="bread" style={{ width: '30px', height: '30px' }} />
+                  )}
+                  <span style={{ position: "relative", top: -6 }}>{item.name}</span>
                 </div>
               ))}
             </div>
