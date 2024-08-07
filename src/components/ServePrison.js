@@ -5,25 +5,8 @@ import coin from "../media/coin.jpeg";
 import karma from "../media/karma.png";
 import jail from "../media/jail.png";
 import inventory from "../media/inventory.jpeg";
-import alcohol from "../media/inventory/alcohol.png";
-import bread from "../media/inventory/bread.png";
-import sweets from "../media/inventory/sweets.png";
-import canofmeat from "../media/inventory/canofmeat.jpeg";
-import canoffish from "../media/inventory/canoffish.png";
-import gun from "../media/inventory/gun.png"
-import ganja from "../media/inventory/ganja.png";
-import meth from "../media/inventory/crystal.png";
-import tea from "../media/inventory/tea.png";
-import medicine from "../media/inventory/medicine.png";
-import paracetemol from "../media/inventory/paracetemol.png";
-import moonshine from "../media/inventory/moonshine.jpeg";
-import vodka from "../media/inventory/vodka.png";
-import whiskey from "../media/inventory/whiskey.jpeg";
-import cocaine from "../media/inventory/cocaine.png";
-import smokes from "../media/inventory/smokes.png";
-import hotmz from "../media/inventory/hotmagazine.png";
-import strongalcohol from "../media/inventory/alcohol2.jpeg"
 import { Modal } from "antd";
+import ItemImage from "./ItemImage"; // Import the new component
 
 function ServePrison() {
   const { id } = useParams();
@@ -138,136 +121,11 @@ function ServePrison() {
                     padding: "10px",
                     border: "1px solid #ccc",
                     borderRadius: "4px",
-                    cursor:"pointer"
+                    cursor: "pointer"
                   }}
                   onClick={() => handleItemClick(item)}
                 >
-                  {item.name === "Alcohol" && (
-                    <img
-                      src={alcohol}
-                      alt="alcohol"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Bread" && (
-                    <img
-                      src={bread}
-                      alt="bread"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Sweets" && (
-                    <img
-                      src={sweets}
-                      alt="sweets"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Can of Meat" && (
-                    <img
-                      src={canofmeat}
-                      alt="canofmeat"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Can of Fish" && (
-                    <img
-                      src={canoffish}
-                      alt="canoffish"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Gun" && (
-                    <img
-                      src={gun}
-                      alt="gun"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Ganja" && (
-                    <img
-                      src={ganja}
-                      alt="ganja"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Meth" && (
-                    <img
-                      src={meth}
-                      alt="meth"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Tea" && (
-                    <img
-                      src={tea}
-                      alt="tea"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Medicine" && (
-                    <img
-                      src={medicine}
-                      alt="medicine"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Paracetemol" && (
-                    <img
-                      src={paracetemol}
-                      alt="paracetemol"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Moonshine" && (
-                    <img
-                      src={moonshine}
-                      alt="moonshine"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Vodka" && (
-                    <img
-                      src={vodka}
-                      alt="vodka"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Whiskey" && (
-                    <img
-                      src={whiskey}
-                      alt="whiskey"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Cocaine" && (
-                    <img
-                      src={cocaine}
-                      alt="cocaine"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Smokes" && (
-                    <img
-                      src={smokes}
-                      alt="smokes"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Hot Magazine" && (
-                    <img
-                      src={hotmz}
-                      alt="hotmz"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
-                  {item.name === "Strong Alcohol" && (
-                    <img
-                      src={strongalcohol}
-                      alt="Strong Alcohol"
-                      style={{ width: "30px", height: "30px" }}
-                    />
-                  )}
+                  <ItemImage itemName={item.name} /> {/* Use the new component */}
                   <span style={{ position: "relative", top: -6 }}>
                     {item.name}
                   </span>
@@ -275,7 +133,7 @@ function ServePrison() {
               ))}
             </div>
           </Modal>
-/*create a function lol */
+
           <Modal
             title={selectedItem ? selectedItem.name : "Item Details"}
             visible={isItemDetailModalVisible}
@@ -284,18 +142,13 @@ function ServePrison() {
           >
             {selectedItem && (
               <div>
-                {selectedItem.name === "Alcohol" && (
-                  <img src={alcohol} alt="alcohol" style={{ width: '50px', height: '50px' }} />
-                )}
-                {selectedItem.name === "Bread" && (
-                  <img src={bread} alt="bread" style={{ width: '50px', height: '50px' }} />
-                )}
+                <ItemImage itemName={selectedItem.name} /> {/* Use the new component */}
                 <p>{selectedItem.description}</p>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <button  onClick={handleMoveToTrash}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <button onClick={handleMoveToTrash}>
                     Move to Trash
                   </button>
-                  <button  onClick={handleMoveToStash}>
+                  <button onClick={handleMoveToStash}>
                     Move to Stash
                   </button>
                 </div>
