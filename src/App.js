@@ -7,7 +7,7 @@ import ServePrison from './components/ServePrison';
 import FullScreenVideo from './FullScreenVideo';
 
 function App() {
-  const [videoPlayed, setVideoPlayed] = useState(false);
+  const [videoPlayed, setVideoPlayed] = useState(true);
 
   const handleVideoEnd = () => {
     setVideoPlayed(true);

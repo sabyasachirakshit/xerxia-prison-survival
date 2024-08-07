@@ -4,6 +4,7 @@ import save from "../media/ezgif-2-e5a6f8f93a.gif";
 import coin from "../media/coin.jpeg";
 import karma from "../media/karma.png";
 import jail from "../media/jail.png";
+import stash from "../media/inventory/stash.png";
 import { Button } from "@mui/material";
 import inventory from "../media/inventory.jpeg";
 import { Modal } from "antd";
@@ -12,8 +13,13 @@ import ItemImage from "./ItemImage"; // Import the new component
 function ServePrison() {
   const { id } = useParams();
   const [isInventoryModalVisible, setIsInventoryModalVisible] = useState(false);
+  const [isStashModalVisible, setIsStashModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [isItemDetailModalVisible, setIsItemDetailModalVisible] = useState(false);
+  const [selectedStashItem, setSelectedStashItem] = useState(null);
+  const [isItemDetailModalVisible, setIsItemDetailModalVisible] =
+    useState(false);
+  const [isStashItemDetailModalVisible, setIsStashItemDetailModalVisible] =
+    useState(false);
 
   const location = useLocation();
   const { profile, resources } = location.state || {
@@ -25,9 +31,18 @@ function ServePrison() {
     setIsInventoryModalVisible(true);
   };
 
+  const handleStashClick = () => {
+    setIsStashModalVisible(true);
+  };
+
   const handleItemClick = (item) => {
     setSelectedItem(item);
     setIsItemDetailModalVisible(true);
+  };
+
+  const handleStashItemClick = (item) => {
+    setSelectedStashItem(item);
+    setIsStashItemDetailModalVisible(true);
   };
 
   const handleMoveToTrash = () => {
@@ -61,6 +76,12 @@ function ServePrison() {
     { id: 19, name: "Strong Alcohol" },
   ];
 
+  const stashItems = [
+    { id: 1, name: "Alcohol" },
+    { id: 2, name: "Bread" },
+    { id: 3, name: "Sweets" },
+  ];
+
   return (
     <div style={{ backgroundColor: "black", color: "white", height: "100vh" }}>
       <div className="resources-list" style={{ display: "flex", gap: 20 }}>
@@ -85,27 +106,35 @@ function ServePrison() {
             {resources.jailTime} years
           </h4>
         </div>
-        <div className="inventory-rs" style={{ display: "flex", gap: 10 }}>
-          <img
-            src={inventory}
-            alt="inventory"
-            style={{ height: 30, width: 30, cursor: "pointer" }}
-            onClick={handleInventoryClick}
-          />{" "}
-        </div>
       </div>
 
       {profile && resources ? (
         <div>
-          <div>
-            <p>Inventory: {resources.inventory}</p>
-            <p>Stash: {resources.stash}</p>
-            <div className="save" style={{ display: "flex", gap: 3 }}>
-              <img src={save} alt="save" style={{ height: 50, width: 50 }} />{" "}
-              <h3 style={{ position: "relative", top: -7 }}>Saving..</h3>
+          <div style={{ display: "flex", gap: 10, marginTop: 15,marginLeft:55 }}>
+            <div className="inventory-rs" style={{ display: "flex", gap: 10 }}>
+              <img
+                src={inventory}
+                alt="inventory"
+                style={{ height: 50, width: 50, cursor: "pointer" }}
+                onClick={handleInventoryClick}
+              />
+              Inventory
+            </div>
+            <div className="stash-rs" style={{ display: "flex", gap: 10 }}>
+              <img
+                src={stash}
+                alt="stash"
+                style={{ height: 50, width: 50, cursor: "pointer" }}
+                onClick={handleStashClick}
+              />
+              Stash
             </div>
           </div>
-         
+
+          <div className="save" style={{ display: "flex", gap: 3 }}>
+            <img src={save} alt="save" style={{ height: 50, width: 50 }} />{" "}
+            <h3 style={{ position: "relative", top: -7 }}>Saving..</h3>
+          </div>
 
           <Modal
             title="Inventory"
@@ -124,11 +153,12 @@ function ServePrison() {
                     padding: "10px",
                     border: "1px solid #ccc",
                     borderRadius: "4px",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                   onClick={() => handleItemClick(item)}
                 >
-                  <ItemImage itemName={item.name} /> {/* Use the new component */}
+                  <ItemImage itemName={item.name} />{" "}
+                  {/* Use the new component */}
                   <span style={{ position: "relative", top: -6 }}>
                     {item.name}
                   </span>
@@ -140,16 +170,117 @@ function ServePrison() {
             visible={isItemDetailModalVisible}
             onOk={() => setIsItemDetailModalVisible(false)}
             onCancel={() => setIsItemDetailModalVisible(false)}
-            bodyStyle={{ display: "flex", justifyContent: "center", alignItems: "center", textAlign: "center" }}
+            bodyStyle={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+            }}
           >
             {selectedItem && (
               <div style={{ textAlign: "center" }}>
                 <h2>{selectedItem.name}</h2>
-                <ItemImage itemName={selectedItem.name} inv_view={true} /> {/* Use the new component */}
+                <ItemImage itemName={selectedItem.name} inv_view={true} />{" "}
+                {/* Use the new component */}
                 <p>{selectedItem.description}</p>
-                <div style={{ display: "flex", justifyContent: "space-between",gap:10 }}>
-                  <Button onClick={handleMoveToTrash} variant="contained" color="error">Move to Trash</Button>
-                  <Button onClick={handleMoveToStash} variant="contained" color="success">Move to Stash</Button>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 10,
+                  }}
+                >
+                  <Button
+                    onClick={handleMoveToTrash}
+                    variant="contained"
+                    color="error"
+                  >
+                    Move to Trash
+                  </Button>
+                  <Button
+                    onClick={handleMoveToStash}
+                    variant="contained"
+                    color="success"
+                  >
+                    Move to Stash
+                  </Button>
+                </div>
+              </div>
+            )}
+          </Modal>
+
+          <Modal
+            title="Stash"
+            visible={isStashModalVisible}
+            onOk={() => setIsStashModalVisible(false)}
+            onCancel={() => setIsStashModalVisible(false)}
+            bodyStyle={{ maxHeight: "400px", overflowY: "auto" }}
+          >
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+              {stashItems.map((item) => (
+                <div
+                  key={item.id}
+                  style={{
+                    flex: "1 1 calc(50% - 10px)",
+                    boxSizing: "border-box",
+                    padding: "10px",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleStashItemClick(item)}
+                >
+                  <ItemImage itemName={item.name} />{" "}
+                  {/* Use the new component */}
+                  <span style={{ position: "relative", top: -6 }}>
+                    {item.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Modal>
+
+          <Modal
+            visible={isStashItemDetailModalVisible}
+            onOk={() => setIsStashItemDetailModalVisible(false)}
+            onCancel={() => setIsStashItemDetailModalVisible(false)}
+            bodyStyle={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            {selectedStashItem && (
+              <div style={{ textAlign: "center" }}>
+                <h2>{selectedStashItem.name}</h2>
+                <ItemImage
+                  itemName={selectedStashItem.name}
+                  inv_view={true}
+                />{" "}
+                {/* Use the new component */}
+                <p>{selectedStashItem.description}</p>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 10,
+                  }}
+                >
+                  <Button
+                    onClick={handleMoveToTrash}
+                    variant="contained"
+                    color="error"
+                  >
+                    Move to Trash
+                  </Button>
+                  <Button
+                    onClick={handleMoveToStash}
+                    variant="contained"
+                    color="success"
+                  >
+                    Move to Stash
+                  </Button>
                 </div>
               </div>
             )}
