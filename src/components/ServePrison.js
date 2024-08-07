@@ -6,6 +6,7 @@ import karma from "../media/karma.png";
 import jail from "../media/jail.png";
 import stashImg from "../media/inventory/stash.png";
 import market from "../media/market.png";
+import blackmarket from "../media/blackmarket.png"
 import { Button } from "@mui/material";
 import inventoryImg from "../media/inventory.jpeg";
 import { Modal } from "antd";
@@ -23,7 +24,7 @@ function ServePrison() {
     useState(false);
 
   const [marketVisible, setMarketVisible] = useState(false);
-
+  const [blackMarketVisible, setBlackMarketVisible] = useState(false);
   const location = useLocation();
   const { profile, resources } = location.state || {
     profile: null,
@@ -61,6 +62,12 @@ function ServePrison() {
     { id: 1, name: "Tea", price: 40 },
     { id: 2, name: "Bread", price: 20 },
     { id: 3, name: "Sweets", price: 50 },
+  ]);
+
+  const [blackMarketItems, setBlackMarketItems] = useState([
+    { id: 1, name: "Ganja", price: 40 },
+    { id: 2, name: "Meth", price: 20 },
+    { id: 3, name: "Gun", price: 50 },
   ]);
 
   const handleInventoryClick = () => {
@@ -119,6 +126,10 @@ function ServePrison() {
     setMarketVisible(true);
   };
 
+  const handleBlackMarketClick = () => {
+    setBlackMarketVisible(true);
+  };
+
   const handleMarketItem = (item) => {
     if (resources.coins >= item.price) {
       setInventoryItems([...inventoryItems, item]);
@@ -130,6 +141,16 @@ function ServePrison() {
     }
   };
   
+  const handleBlackMarketItem = (item) => {
+    if (resources.coins >= item.price) {
+      setInventoryItems([...inventoryItems, item]);
+      resources.coins -= item.price;  // Deduct the price from the user's balance
+      setBlackMarketItems(blackMarketItems.filter(marketItem => marketItem.id !== item.id));  // Remove the purchased item from marketItems
+      alert(`You have successfully purchased ${item.name}`);
+    } else {
+      alert("Insufficient balance to buy this item.");
+    }
+  };
 
   return (
     <div style={{ backgroundColor: "black", color: "white", height: "100vh" }}>
@@ -160,13 +181,13 @@ function ServePrison() {
       {profile && resources ? (
         <div>
           <div
-            style={{ display: "flex", gap: 10, marginTop: 15, marginLeft: 55 }}
+            style={{ display: "flex", gap: 10, marginTop: 15 }}
           >
             <div className="inventory-rs" style={{ display: "flex", gap: 10 }}>
               <img
                 src={inventoryImg}
                 alt="inventory"
-                style={{ height: 50, width: 50, cursor: "pointer" }}
+                style={{ height: 30, width: 30, cursor: "pointer" }}
                 onClick={handleInventoryClick}
               />
               Inventory
@@ -175,7 +196,7 @@ function ServePrison() {
               <img
                 src={stashImg}
                 alt="stash"
-                style={{ height: 50, width: 50, cursor: "pointer" }}
+                style={{ height: 30, width: 30, cursor: "pointer" }}
                 onClick={handleStashClick}
               />
               Stash
@@ -183,9 +204,18 @@ function ServePrison() {
             <div className="market-rs" style={{ display: "flex", gap: 10 }}>
               <img
                 src={market}
-                alt="stash"
-                style={{ height: 50, width: 50, cursor: "pointer" }}
+                alt="market"
+                style={{ height: 30, width: 30, cursor: "pointer" }}
                 onClick={handleMarketClick}
+              />
+              Market
+            </div>
+            <div className="black-market-rs" style={{ display: "flex", gap: 10 }}>
+              <img
+                src={blackmarket}
+                alt="blackmarket"
+                style={{ height: 30, width: 30, cursor: "pointer" }}
+                onClick={handleBlackMarketClick}
               />
               Market
             </div>
@@ -359,6 +389,49 @@ function ServePrison() {
                   <div
                     className="item"
                     onClick={()=>handleMarketItem(item)}
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <div className="name">
+                      <ItemImage itemName={item.name} />
+                      <span style={{ position: "relative", top: -6 }}>
+                        {item.name}
+                      </span>
+                    </div>
+
+                    <div className="price" style={{ display: "flex", gap: 5 }}>
+                      <img src={coin} alt="price" width={30} height={30} />{" "}
+                      <h5 style={{ margin: 0, padding: 0,position:"relative",top:7 }}>{item.price}</h5>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Modal>
+
+
+          <Modal
+            title="Black Market"
+            visible={blackMarketVisible}
+            onOk={() => setBlackMarketVisible(false)}
+            onCancel={() => setBlackMarketVisible(false)}
+            bodyStyle={{ maxHeight: "400px", overflowY: "auto" }}
+          >
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+              {blackMarketItems.map((item) => (
+                <div
+                  key={item.id}
+                  style={{
+                    flex: "1 1 calc(50% - 10px)",
+                    boxSizing: "border-box",
+                    padding: "10px",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <div
+                    className="item"
+                    onClick={()=>handleBlackMarketItem(item)}
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <div className="name">
