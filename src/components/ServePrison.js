@@ -179,9 +179,9 @@ function ServePrison() {
       </div>
 
       {profile && resources ? (
-        <div>
+        <div style={{marginTop:400}}>
           <div
-            style={{ display: "flex", gap: 10, marginTop: 15 }}
+            style={{ display: "flex", gap: 10, marginTop: 15,marginRight:35,justifyContent:"space-evenly" }}
           >
             <div className="inventory-rs" style={{ display: "flex", gap: 10 }}>
               <img
@@ -192,7 +192,7 @@ function ServePrison() {
               />
               Inventory
             </div>
-            <div className="stash-rs" style={{ display: "flex", gap: 10 }}>
+            <div className="stash-rs" style={{ display: "flex", gap: 10,position:"relative",right:15 }}>
               <img
                 src={stashImg}
                 alt="stash"
@@ -201,7 +201,11 @@ function ServePrison() {
               />
               Stash
             </div>
-            <div className="market-rs" style={{ display: "flex", gap: 10 }}>
+            
+          </div>
+
+          <div className="2div" style={{ display: "flex", gap: 10, marginTop: 15,justifyContent:"space-evenly" }}>
+          <div className="market-rs" style={{ display: "flex", gap: 10 }}>
               <img
                 src={market}
                 alt="market"
@@ -217,7 +221,7 @@ function ServePrison() {
                 style={{ height: 30, width: 30, cursor: "pointer" }}
                 onClick={handleBlackMarketClick}
               />
-              Market
+              Black Market
             </div>
           </div>
 
