@@ -41,7 +41,7 @@ const ItemImage = (props) => {
         return tea;
       case "Medicine":
         return medicine;
-      case "Paracetemol":
+      case "Paracetamol":
         return paracetemol;
       case "Moonshine":
         return moonshine;

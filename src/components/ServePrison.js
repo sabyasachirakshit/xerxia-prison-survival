@@ -4,11 +4,11 @@ import save from "../media/ezgif-2-e5a6f8f93a.gif";
 import coin from "../media/coin.jpeg";
 import karma from "../media/karma.png";
 import jail from "../media/jail.png";
-import stash from "../media/inventory/stash.png";
+import stashImg from "../media/inventory/stash.png";
 import { Button } from "@mui/material";
-import inventory from "../media/inventory.jpeg";
+import inventoryImg from "../media/inventory.jpeg";
 import { Modal } from "antd";
-import ItemImage from "./ItemImage"; // Import the new component
+import ItemImage from "./ItemImage";
 
 function ServePrison() {
   const { id } = useParams();
@@ -26,6 +26,33 @@ function ServePrison() {
     profile: null,
     resources: null,
   };
+
+  const [inventoryItems, setInventoryItems] = useState([
+    { id: 1, name: "Alcohol" },
+    { id: 2, name: "Bread" },
+    { id: 3, name: "Sweets" },
+    { id: 4, name: "Can of Meat" },
+    { id: 5, name: "Can of Fish" },
+    { id: 6, name: "Gun" },
+    { id: 7, name: "Ganja" },
+    { id: 8, name: "Meth" },
+    { id: 9, name: "Tea" },
+    { id: 10, name: "Medicine" },
+    { id: 11, name: "Paracetamol" },
+    { id: 12, name: "Moonshine" },
+    { id: 13, name: "Vodka" },
+    { id: 14, name: "Whiskey" },
+    { id: 15, name: "Cocaine" },
+    { id: 17, name: "Smokes" },
+    { id: 18, name: "Hot Magazine" },
+    { id: 19, name: "Strong Alcohol" },
+  ]);
+
+  const [stashItems, setStashItems] = useState([
+    { id: 1, name: "Alcohol" },
+    { id: 2, name: "Bread" },
+    { id: 3, name: "Sweets" },
+  ]);
 
   const handleInventoryClick = () => {
     setIsInventoryModalVisible(true);
@@ -46,51 +73,30 @@ function ServePrison() {
   };
 
   const handleMoveToTrash = () => {
-    // Handle the logic for moving the item to trash
+    setInventoryItems(inventoryItems.filter((item) => item.id !== selectedItem.id));
     setIsItemDetailModalVisible(false);
   };
 
   const handleMoveToStash = () => {
-    // Handle the logic for moving the item to stash
+    if (stashItems.length < 6) {
+      setStashItems([...stashItems, selectedItem]);
+      setInventoryItems(inventoryItems.filter((item) => item.id !== selectedItem.id));
+    } else {
+      alert("Stash is full. Maximum 6 items allowed.");
+    }
     setIsItemDetailModalVisible(false);
   };
 
   const handleMoveToTrashFromStash = () => {
-    // Handle the logic for moving the item to trash
+    setStashItems(stashItems.filter((item) => item.id !== selectedStashItem.id));
     setIsStashItemDetailModalVisible(false);
   };
 
   const handleMoveToInventory = () => {
-    // Handle the logic for moving the item to stash
+    setInventoryItems([...inventoryItems, selectedStashItem]);
+    setStashItems(stashItems.filter((item) => item.id !== selectedStashItem.id));
     setIsStashItemDetailModalVisible(false);
   };
-
-  const inventoryItems = [
-    { id: 1, name: "Alcohol" },
-    { id: 2, name: "Bread" },
-    { id: 3, name: "Sweets" },
-    { id: 4, name: "Can of Meat" },
-    { id: 5, name: "Can of Fish" },
-    { id: 6, name: "Gun" },
-    { id: 7, name: "Ganja" },
-    { id: 8, name: "Meth" },
-    { id: 9, name: "Tea" },
-    { id: 10, name: "Medicine" },
-    { id: 11, name: "Paracetemol" },
-    { id: 12, name: "Moonshine" },
-    { id: 13, name: "Vodka" },
-    { id: 14, name: "Whiskey" },
-    { id: 15, name: "Cocaine" },
-    { id: 17, name: "Smokes" },
-    { id: 18, name: "Hot Magazine" },
-    { id: 19, name: "Strong Alcohol" },
-  ];
-
-  const stashItems = [
-    { id: 1, name: "Alcohol" },
-    { id: 2, name: "Bread" },
-    { id: 3, name: "Sweets" },
-  ];
 
   return (
     <div style={{ backgroundColor: "black", color: "white", height: "100vh" }}>
@@ -120,10 +126,10 @@ function ServePrison() {
 
       {profile && resources ? (
         <div>
-          <div style={{ display: "flex", gap: 10, marginTop: 15,marginLeft:55 }}>
+          <div style={{ display: "flex", gap: 10, marginTop: 15, marginLeft: 55 }}>
             <div className="inventory-rs" style={{ display: "flex", gap: 10 }}>
               <img
-                src={inventory}
+                src={inventoryImg}
                 alt="inventory"
                 style={{ height: 50, width: 50, cursor: "pointer" }}
                 onClick={handleInventoryClick}
@@ -132,7 +138,7 @@ function ServePrison() {
             </div>
             <div className="stash-rs" style={{ display: "flex", gap: 10 }}>
               <img
-                src={stash}
+                src={stashImg}
                 alt="stash"
                 style={{ height: 50, width: 50, cursor: "pointer" }}
                 onClick={handleStashClick}
@@ -160,8 +166,7 @@ function ServePrison() {
             {selectedItem && (
               <div style={{ textAlign: "center" }}>
                 <h2>{selectedItem.name}</h2>
-                <ItemImage itemName={selectedItem.name} inv_view={true} />{" "}
-                {/* Use the new component */}
+                <ItemImage itemName={selectedItem.name} inv_view={true} />
                 <p>{selectedItem.description}</p>
                 <div
                   style={{
@@ -210,16 +215,12 @@ function ServePrison() {
                   }}
                   onClick={() => handleItemClick(item)}
                 >
-                  <ItemImage itemName={item.name} />{" "}
-                  {/* Use the new component */}
-                  <span style={{ position: "relative", top: -6 }}>
-                    {item.name}
-                  </span>
+                  <ItemImage itemName={item.name} />
+                  <span style={{ position: "relative", top: -6 }}>{item.name}</span>
                 </div>
               ))}
             </div>
           </Modal>
-          
 
           <Modal
             title="Stash"
@@ -242,11 +243,8 @@ function ServePrison() {
                   }}
                   onClick={() => handleStashItemClick(item)}
                 >
-                  <ItemImage itemName={item.name} />{" "}
-                  {/* Use the new component */}
-                  <span style={{ position: "relative", top: -6 }}>
-                    {item.name}
-                  </span>
+                  <ItemImage itemName={item.name} />
+                  <span style={{ position: "relative", top: -6 }}>{item.name}</span>
                 </div>
               ))}
             </div>
@@ -266,11 +264,7 @@ function ServePrison() {
             {selectedStashItem && (
               <div style={{ textAlign: "center" }}>
                 <h2>{selectedStashItem.name}</h2>
-                <ItemImage
-                  itemName={selectedStashItem.name}
-                  inv_view={true}
-                />{" "}
-                {/* Use the new component */}
+                <ItemImage itemName={selectedStashItem.name} inv_view={true} />
                 <p>{selectedStashItem.description}</p>
                 <div
                   style={{
