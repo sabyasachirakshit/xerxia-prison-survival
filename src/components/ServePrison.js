@@ -4,8 +4,9 @@ import save from "../media/ezgif-2-e5a6f8f93a.gif";
 import coin from "../media/coin.jpeg";
 import karma from "../media/karma.png";
 import jail from "../media/jail.png";
+import { Button } from "@mui/material";
 import inventory from "../media/inventory.jpeg";
-import { Modal, Button } from "antd";
+import { Modal } from "antd";
 import ItemImage from "./ItemImage"; // Import the new component
 
 function ServePrison() {
@@ -136,7 +137,6 @@ function ServePrison() {
             </div>
           </Modal>
           <Modal
-            
             visible={isItemDetailModalVisible}
             onOk={() => setIsItemDetailModalVisible(false)}
             onCancel={() => setIsItemDetailModalVisible(false)}
@@ -147,13 +147,9 @@ function ServePrison() {
                 <h2>{selectedItem.name}</h2>
                 <ItemImage itemName={selectedItem.name} inv_view={true} /> {/* Use the new component */}
                 <p>{selectedItem.description}</p>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <button onClick={handleMoveToTrash}>
-                    Move to Trash
-                  </button>
-                  <button onClick={handleMoveToStash}>
-                    Move to Stash
-                  </button>
+                <div style={{ display: "flex", justifyContent: "space-between",gap:10 }}>
+                  <Button onClick={handleMoveToTrash} variant="contained" color="error">Move to Trash</Button>
+                  <Button onClick={handleMoveToStash} variant="contained" color="success">Move to Stash</Button>
                 </div>
               </div>
             )}
