@@ -5,6 +5,7 @@ import coin from "../media/coin.jpeg";
 import karma from "../media/karma.png";
 import jail from "../media/jail.png";
 import stashImg from "../media/inventory/stash.png";
+import market from "../media/market.png";
 import { Button } from "@mui/material";
 import inventoryImg from "../media/inventory.jpeg";
 import { Modal } from "antd";
@@ -20,6 +21,8 @@ function ServePrison() {
     useState(false);
   const [isStashItemDetailModalVisible, setIsStashItemDetailModalVisible] =
     useState(false);
+
+  const [marketVisible, setMarketVisible] = useState(false);
 
   const location = useLocation();
   const { profile, resources } = location.state || {
@@ -54,6 +57,12 @@ function ServePrison() {
     { id: 3, name: "Sweets" },
   ]);
 
+  const [marketItems, setMarketItems] = useState([
+    { id: 1, name: "Tea", price: 40 },
+    { id: 2, name: "Bread", price: 20 },
+    { id: 3, name: "Sweets", price: 50 },
+  ]);
+
   const handleInventoryClick = () => {
     setIsInventoryModalVisible(true);
   };
@@ -73,14 +82,18 @@ function ServePrison() {
   };
 
   const handleMoveToTrash = () => {
-    setInventoryItems(inventoryItems.filter((item) => item.id !== selectedItem.id));
+    setInventoryItems(
+      inventoryItems.filter((item) => item.id !== selectedItem.id)
+    );
     setIsItemDetailModalVisible(false);
   };
 
   const handleMoveToStash = () => {
     if (stashItems.length < 6) {
       setStashItems([...stashItems, selectedItem]);
-      setInventoryItems(inventoryItems.filter((item) => item.id !== selectedItem.id));
+      setInventoryItems(
+        inventoryItems.filter((item) => item.id !== selectedItem.id)
+      );
     } else {
       alert("Stash is full. Maximum 6 items allowed.");
     }
@@ -88,14 +101,22 @@ function ServePrison() {
   };
 
   const handleMoveToTrashFromStash = () => {
-    setStashItems(stashItems.filter((item) => item.id !== selectedStashItem.id));
+    setStashItems(
+      stashItems.filter((item) => item.id !== selectedStashItem.id)
+    );
     setIsStashItemDetailModalVisible(false);
   };
 
   const handleMoveToInventory = () => {
     setInventoryItems([...inventoryItems, selectedStashItem]);
-    setStashItems(stashItems.filter((item) => item.id !== selectedStashItem.id));
+    setStashItems(
+      stashItems.filter((item) => item.id !== selectedStashItem.id)
+    );
     setIsStashItemDetailModalVisible(false);
+  };
+
+  const handleMarketClick = () => {
+    setMarketVisible(true);
   };
 
   return (
@@ -126,7 +147,9 @@ function ServePrison() {
 
       {profile && resources ? (
         <div>
-          <div style={{ display: "flex", gap: 10, marginTop: 15, marginLeft: 55 }}>
+          <div
+            style={{ display: "flex", gap: 10, marginTop: 15, marginLeft: 55 }}
+          >
             <div className="inventory-rs" style={{ display: "flex", gap: 10 }}>
               <img
                 src={inventoryImg}
@@ -144,6 +167,15 @@ function ServePrison() {
                 onClick={handleStashClick}
               />
               Stash
+            </div>
+            <div className="market-rs" style={{ display: "flex", gap: 10 }}>
+              <img
+                src={market}
+                alt="stash"
+                style={{ height: 50, width: 50, cursor: "pointer" }}
+                onClick={handleMarketClick}
+              />
+              Market
             </div>
           </div>
 
@@ -216,7 +248,9 @@ function ServePrison() {
                   onClick={() => handleItemClick(item)}
                 >
                   <ItemImage itemName={item.name} />
-                  <span style={{ position: "relative", top: -6 }}>{item.name}</span>
+                  <span style={{ position: "relative", top: -6 }}>
+                    {item.name}
+                  </span>
                 </div>
               ))}
             </div>
@@ -244,7 +278,9 @@ function ServePrison() {
                   onClick={() => handleStashItemClick(item)}
                 >
                   <ItemImage itemName={item.name} />
-                  <span style={{ position: "relative", top: -6 }}>{item.name}</span>
+                  <span style={{ position: "relative", top: -6 }}>
+                    {item.name}
+                  </span>
                 </div>
               ))}
             </div>
@@ -280,15 +316,55 @@ function ServePrison() {
                   >
                     Move to Trash
                   </Button>
-                  <Button
-                    onClick={handleMoveToInventory}
-                    variant="contained"
-                  >
+                  <Button onClick={handleMoveToInventory} variant="contained">
                     Move to Inventory
                   </Button>
                 </div>
               </div>
             )}
+          </Modal>
+
+          <Modal
+            title="Market"
+            visible={marketVisible}
+            onOk={() => setMarketVisible(false)}
+            onCancel={() => setMarketVisible(false)}
+            bodyStyle={{ maxHeight: "400px", overflowY: "auto" }}
+          >
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+              {marketItems.map((item) => (
+                <div
+                  key={item.id}
+                  style={{
+                    flex: "1 1 calc(50% - 10px)",
+                    boxSizing: "border-box",
+                    padding: "10px",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleItemClick(item)}
+                >
+                  <div
+                    className="item"
+                    onClick={()=>handleMarketItem(item)}
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <div className="name">
+                      <ItemImage itemName={item.name} />
+                      <span style={{ position: "relative", top: -6 }}>
+                        {item.name}
+                      </span>
+                    </div>
+
+                    <div className="price" style={{ display: "flex", gap: 5 }}>
+                      <img src={coin} alt="price" width={30} height={30} />{" "}
+                      <h5 style={{ margin: 0, padding: 0,position:"relative",top:7 }}>{item.price}</h5>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </Modal>
         </div>
       ) : (
