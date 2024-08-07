@@ -55,6 +55,16 @@ function ServePrison() {
     setIsItemDetailModalVisible(false);
   };
 
+  const handleMoveToTrashFromStash = () => {
+    // Handle the logic for moving the item to trash
+    setIsStashItemDetailModalVisible(false);
+  };
+
+  const handleMoveToInventory = () => {
+    // Handle the logic for moving the item to stash
+    setIsStashItemDetailModalVisible(false);
+  };
+
   const inventoryItems = [
     { id: 1, name: "Alcohol" },
     { id: 2, name: "Bread" },
@@ -137,36 +147,6 @@ function ServePrison() {
           </div>
 
           <Modal
-            title="Inventory"
-            visible={isInventoryModalVisible}
-            onOk={() => setIsInventoryModalVisible(false)}
-            onCancel={() => setIsInventoryModalVisible(false)}
-            bodyStyle={{ maxHeight: "400px", overflowY: "auto" }}
-          >
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-              {inventoryItems.map((item) => (
-                <div
-                  key={item.id}
-                  style={{
-                    flex: "1 1 calc(50% - 10px)",
-                    boxSizing: "border-box",
-                    padding: "10px",
-                    border: "1px solid #ccc",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleItemClick(item)}
-                >
-                  <ItemImage itemName={item.name} />{" "}
-                  {/* Use the new component */}
-                  <span style={{ position: "relative", top: -6 }}>
-                    {item.name}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </Modal>
-          <Modal
             visible={isItemDetailModalVisible}
             onOk={() => setIsItemDetailModalVisible(false)}
             onCancel={() => setIsItemDetailModalVisible(false)}
@@ -208,6 +188,38 @@ function ServePrison() {
               </div>
             )}
           </Modal>
+
+          <Modal
+            title="Inventory"
+            visible={isInventoryModalVisible}
+            onOk={() => setIsInventoryModalVisible(false)}
+            onCancel={() => setIsInventoryModalVisible(false)}
+            bodyStyle={{ maxHeight: "400px", overflowY: "auto" }}
+          >
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+              {inventoryItems.map((item) => (
+                <div
+                  key={item.id}
+                  style={{
+                    flex: "1 1 calc(50% - 10px)",
+                    boxSizing: "border-box",
+                    padding: "10px",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleItemClick(item)}
+                >
+                  <ItemImage itemName={item.name} />{" "}
+                  {/* Use the new component */}
+                  <span style={{ position: "relative", top: -6 }}>
+                    {item.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Modal>
+          
 
           <Modal
             title="Stash"
@@ -268,18 +280,17 @@ function ServePrison() {
                   }}
                 >
                   <Button
-                    onClick={handleMoveToTrash}
+                    onClick={handleMoveToTrashFromStash}
                     variant="contained"
                     color="error"
                   >
                     Move to Trash
                   </Button>
                   <Button
-                    onClick={handleMoveToStash}
+                    onClick={handleMoveToInventory}
                     variant="contained"
-                    color="success"
                   >
-                    Move to Stash
+                    Move to Inventory
                   </Button>
                 </div>
               </div>
