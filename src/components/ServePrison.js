@@ -5,7 +5,7 @@ import coin from "../media/coin.jpeg";
 import karma from "../media/karma.png";
 import jail from "../media/jail.png";
 import inventory from "../media/inventory.jpeg";
-import { Modal } from "antd";
+import { Modal, Button } from "antd";
 import ItemImage from "./ItemImage"; // Import the new component
 
 function ServePrison() {
@@ -104,6 +104,8 @@ function ServePrison() {
               <h3 style={{ position: "relative", top: -7 }}>Saving..</h3>
             </div>
           </div>
+         
+
           <Modal
             title="Inventory"
             visible={isInventoryModalVisible}
@@ -133,16 +135,17 @@ function ServePrison() {
               ))}
             </div>
           </Modal>
-
           <Modal
-            title={selectedItem ? selectedItem.name : "Item Details"}
+            
             visible={isItemDetailModalVisible}
             onOk={() => setIsItemDetailModalVisible(false)}
             onCancel={() => setIsItemDetailModalVisible(false)}
+            bodyStyle={{ display: "flex", justifyContent: "center", alignItems: "center", textAlign: "center" }}
           >
             {selectedItem && (
-              <div>
-                <ItemImage itemName={selectedItem.name} /> {/* Use the new component */}
+              <div style={{ textAlign: "center" }}>
+                <h2>{selectedItem.name}</h2>
+                <ItemImage itemName={selectedItem.name} inv_view={true} /> {/* Use the new component */}
                 <p>{selectedItem.description}</p>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <button onClick={handleMoveToTrash}>

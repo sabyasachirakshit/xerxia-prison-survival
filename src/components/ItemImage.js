@@ -18,7 +18,7 @@ import smokes from "../media/inventory/smokes.png";
 import hotmz from "../media/inventory/hotmagazine.png";
 import strongalcohol from "../media/inventory/alcohol2.jpeg";
 
-const ItemImage = ({ itemName }) => {
+const ItemImage = (props) => {
   const getItemImage = (name) => {
     switch (name) {
       case "Alcohol":
@@ -62,8 +62,24 @@ const ItemImage = ({ itemName }) => {
     }
   };
 
-  const itemImage = getItemImage(itemName);
-  return itemImage ? <img src={itemImage} alt={itemName} style={{ width: "30px", height: "30px" }} /> : null;
+  const itemImage = getItemImage(props.itemName);
+  if (props.inv_view === true) {
+    return itemImage ? (
+      <img
+        src={itemImage}
+        alt={props.itemName}
+        style={{ width: "50px", height: "50px" }}
+      />
+    ) : null;
+  } else {
+    return itemImage ? (
+      <img
+        src={itemImage}
+        alt={props.itemName}
+        style={{ width: "30px", height: "30px" }}
+      />
+    ) : null;
+  }
 };
 
 export default ItemImage;
