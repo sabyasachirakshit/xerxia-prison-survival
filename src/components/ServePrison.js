@@ -119,6 +119,18 @@ function ServePrison() {
     setMarketVisible(true);
   };
 
+  const handleMarketItem = (item) => {
+    if (resources.coins >= item.price) {
+      setInventoryItems([...inventoryItems, item]);
+      resources.coins -= item.price;  // Deduct the price from the user's balance
+      setMarketItems(marketItems.filter(marketItem => marketItem.id !== item.id));  // Remove the purchased item from marketItems
+      alert(`You have successfully purchased ${item.name}`);
+    } else {
+      alert("Insufficient balance to buy this item.");
+    }
+  };
+  
+
   return (
     <div style={{ backgroundColor: "black", color: "white", height: "100vh" }}>
       <div className="resources-list" style={{ display: "flex", gap: 20 }}>
@@ -343,7 +355,6 @@ function ServePrison() {
                     borderRadius: "4px",
                     cursor: "pointer",
                   }}
-                  onClick={() => handleItemClick(item)}
                 >
                   <div
                     className="item"

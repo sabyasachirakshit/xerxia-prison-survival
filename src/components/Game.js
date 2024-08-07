@@ -8,7 +8,7 @@ function Game() {
   const { profile } = location.state || { profile: null };
 
   const [resources, setResources] = useState({
-    coins: 0,
+    coins: 100,
     karma: 20,
     jailTime: null,
     inventory: null,
@@ -24,7 +24,7 @@ function Game() {
         setResources(savedResources);
       } else {
         const initialResources = {
-          coins: 0,
+          coins: 100,
           karma: 20,
           jailTime: null,
           inventory: null,
