@@ -11,6 +11,7 @@ import { Button } from "@mui/material";
 import inventoryImg from "../media/inventory.jpeg";
 import { Modal } from "antd";
 import ItemImage from "./ItemImage";
+import EventLoader from "./EventLoader";
 
 function ServePrison() {
   const { id } = useParams();
@@ -32,6 +33,7 @@ function ServePrison() {
   };
 
   const [showEventModal,setShowEventModal] = useState(false);
+  const [event, setEvent]=useState(null);
 
   const [inventoryItems, setInventoryItems] = useState([
     { id: 1, name: "Alcohol" },
@@ -154,8 +156,13 @@ function ServePrison() {
     }
   };
 
+  const handleEventGenerated = () => {
+    setEvent(EventLoader.generateRandomNumber()); // Update the state with the generated number
+  };
+
   const serveSentence = () =>{
     setShowEventModal(true);
+    handleEventGenerated();
   }
 
   return (
@@ -252,6 +259,7 @@ function ServePrison() {
               textAlign: "center",
             }}
           >
+            {event}
             
           </Modal>
 
