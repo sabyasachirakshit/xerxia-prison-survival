@@ -10,7 +10,7 @@ function Game() {
   const [resources, setResources] = useState({
     coins: 100,
     karma: 20,
-    jailTime: null,
+    jailTime: 0,
     inventory: null,
     stash: null,
   });
@@ -26,7 +26,7 @@ function Game() {
         const initialResources = {
           coins: 100,
           karma: 20,
-          jailTime: null,
+          jailTime: 0,
           inventory: null,
           stash: null,
         };
@@ -42,16 +42,6 @@ function Game() {
       loadResources();
     }
   }, [id, profile]);
-
-  const randomizeJailTime = () => {
-    const possibleSentences = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-    const randomSentence =
-      possibleSentences[Math.floor(Math.random() * possibleSentences.length)];
-    setResources((prevResources) => ({
-      ...prevResources,
-      jailTime: randomSentence,
-    }));
-  };
 
   const handleServePrison = () => {
     const updatedResources = {
@@ -75,10 +65,8 @@ function Game() {
             <p>Jail Time: {resources.jailTime}</p>
             <p>Inventory: {resources.inventory}</p>
             <p>Stash: {resources.stash}</p>
-            <button onClick={randomizeJailTime}>Randomize Jail Time</button>
-            {resources.jailTime && (
-              <button onClick={handleServePrison}>Serve Prison</button>
-            )}
+
+            <button onClick={handleServePrison}>Serve Prison</button>
           </div>
         </div>
       ) : (

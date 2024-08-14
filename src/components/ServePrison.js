@@ -31,6 +31,8 @@ function ServePrison() {
     resources: null,
   };
 
+  const [showEventModal,setShowEventModal] = useState(false);
+
   const [inventoryItems, setInventoryItems] = useState([
     { id: 1, name: "Alcohol" },
     { id: 2, name: "Bread" },
@@ -152,6 +154,10 @@ function ServePrison() {
     }
   };
 
+  const serveSentence = () =>{
+    setShowEventModal(true);
+  }
+
   return (
     <div style={{ backgroundColor: "black", color: "white", height: "100vh" }}>
       <div className="resources-list" style={{ display: "flex", gap: 20 }}>
@@ -176,6 +182,10 @@ function ServePrison() {
             {resources.jailTime} years
           </h4>
         </div>
+      </div>
+
+      <div className="serve-sentence" style={{display:"flex",width:"100%",justifyContent:"center",position:"relative",top:250}}>
+        <button style={{width:123,height:123}} onClick={serveSentence}>Serve sentence</button>
       </div>
 
       {profile && resources ? (
@@ -229,6 +239,21 @@ function ServePrison() {
             <img src={save} alt="save" style={{ height: 50, width: 50 }} />{" "}
             <h3 style={{ position: "relative", top: -7 }}>Saving..</h3>
           </div>
+
+
+          <Modal
+            visible={showEventModal}
+            footer={null}
+            closable={false}  
+            bodyStyle={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            
+          </Modal>
 
           <Modal
             visible={isItemDetailModalVisible}
