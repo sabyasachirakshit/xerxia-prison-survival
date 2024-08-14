@@ -250,7 +250,7 @@ function ServePrison() {
 
           <Modal
             visible={showEventModal}
-            footer={null}
+            onOk={()=>setShowEventModal(false)}
             closable={false}  
             bodyStyle={{
               display: "flex",
